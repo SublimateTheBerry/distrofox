@@ -28,8 +28,8 @@ jobs:
 
       - name: Build Flatpak
         run: |
-          flatpak-builder --user --install-deps-from=flathub build-dir org.SublimateTheBerry.DistroFox.yml
-          flatpak build-bundle build-dir distrofox.flatpak org.SublimateTheBerry.DistroFox
+          flatpak-builder --user --install-deps-from=flathub build-dir com.SublimateTheBerry.DistroFox.yml
+          flatpak build-bundle build-dir distrofox.flatpak com.SublimateTheBerry.DistroFox
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
