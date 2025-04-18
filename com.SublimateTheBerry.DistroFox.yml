@@ -1,0 +1,35 @@
+app-id: com.SublimateTheBerry.DistroFox
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
+command: distrofox
+finish-args:
+  - --share=network
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --env=TERM=xterm-256color
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.freedesktop.DBus
+  - --talk-name=org.gnome.Ptyxis
+modules:
+  - name: python
+    buildsystem: simple
+    build-commands:
+      - pip install --no-cache-dir --prefix=/app pygobject
+    sources:
+      - type: archive
+        url: https://files.pythonhosted.org/packages/source/P/PyGObject/PyGObject-3.44.1.tar.gz
+        sha256: 4c0d7a1a0e4f0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e
+
+  - name: distrofox
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 distrofox.py /app/bin/distrofox
+    sources:
+      - type: dir
+        path: .
+        exclude:
+          - .git
+          - .github
+          - com.SublimateTheBerry.DistroFox.yml
