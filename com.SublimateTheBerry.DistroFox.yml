@@ -1,6 +1,6 @@
 app-id: com.SublimateTheBerry.DistroFox
 runtime: org.gnome.Platform
-runtime-version: '45'
+runtime-version: '47'
 sdk: org.gnome.Sdk
 command: distrofox
 finish-args:
@@ -13,15 +13,6 @@ finish-args:
   - --talk-name=org.freedesktop.DBus
   - --talk-name=org.gnome.Ptyxis
 modules:
-  - name: python
-    buildsystem: simple
-    build-commands:
-      - pip install --no-cache-dir --prefix=/app pygobject
-    sources:
-      - type: archive
-        url: https://files.pythonhosted.org/packages/source/P/PyGObject/PyGObject-3.44.1.tar.gz
-        sha256: 665fbe980c91e8b31ad78ed3f66879946948200864002d193f67eccc1d7d5d83
-
   - name: distrofox
     buildsystem: simple
     build-commands:
