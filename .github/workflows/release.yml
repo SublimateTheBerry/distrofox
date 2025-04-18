@@ -1,0 +1,56 @@
+name: Flatpak Build & Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g., 1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Pre-release?'
+        required: true
+        type: boolean
+        default: false
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flatpak
+        uses: actions/setup-flatpak@v1
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder --user --install-deps-from=flathub build-dir org.SublimateTheBerry.DistroFox.yml
+          flatpak build-bundle build-dir distrofox.flatpak org.SublimateTheBerry.DistroFox
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: distrofox-${{ inputs.version }}.flatpak
+          path: distrofox.flatpak
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: distrofox-${{ inputs.version }}.flatpak
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          prerelease: ${{ inputs.prerelease }}
+          files: distrofox-${{ inputs.version }}.flatpak
+          body: |
+            New release for DistroFox
