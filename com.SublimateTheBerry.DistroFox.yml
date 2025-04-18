@@ -20,12 +20,12 @@ modules:
     sources:
       - type: archive
         url: https://files.pythonhosted.org/packages/source/P/PyGObject/PyGObject-3.44.1.tar.gz
-        sha256: 4c0d7a1a0e4f0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e0d0e
+        sha256: 665fbe980c91e8b31ad78ed3f66879946948200864002d193f67eccc1d7d5d83
 
   - name: distrofox
     buildsystem: simple
     build-commands:
-      - install -Dm755 distrofox.py /app/bin/distrofox
+      - install -Dm755 main.py /app/bin/distrofox
     sources:
       - type: dir
         path: .
